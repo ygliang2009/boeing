@@ -7,6 +7,7 @@
 #include "RecvCongestionCtrl.h"
 #include "Session.h"
 #include "Internal.h"
+#include "IReceiver.h"
 
 #define CACHE_SIZE	1024
 #define SEGMENT_HEADER_SIZE	10
@@ -94,10 +95,11 @@ public:
 };
 
 
-class BoeReceiver {
+class BoeReceiver : public IReceiver{
 public:
     BoeReceiver();
     ~BoeReceiver();
+
     void setBaseUid(const uint64_t );
     bool heartBeat();
     /*接收端拥塞控制对象心跳，建议每5ms一次*/ 

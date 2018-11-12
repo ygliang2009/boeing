@@ -7,7 +7,7 @@
 #include <map>
 #include "SendCongestionCtrl.h"
 #include "Trigger.h"
-#include "call/Caller.h"
+#include "Caller.h"
 
 #define SPLIT_NUMBER		1024
 
@@ -29,7 +29,7 @@ class BoeSendCongestionCtrl;
  *         开始发送耗费的时间(segmentMessage.sendInterval) +  RTT +  基准时间(sender.firstTs) 
  *
  */
-class BoeSender : public Trigger{
+class BoeSender : public Trigger, public ISender{
 public:
     Session* session;
     /* 发送窗口 */

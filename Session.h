@@ -6,6 +6,7 @@
 #include "transport/Receiver.h"
 #include "interface/Listener.h"
 #include "interface/NotifyType.h"
+#include "interface/Caller.h"
 
 #define TICK_DELAY_MS		1000
 
@@ -91,7 +92,7 @@ public:
 };
 
 
-class Session {
+class Session : public Caller{
 private:
     Connection *__conn;
 
@@ -146,10 +147,10 @@ public:
         return __conn;
     }
 
-    BoeSender* createSender();
+    ISender* createSender();
     bool destroySender();
 
-    BoeReceiver* createReceiver();
+    IReceiver* createReceiver();
     bool destroyReceiver();
 
     bool sessHeartbeat(const int64_t);
@@ -158,6 +159,8 @@ public:
     bool registerListener(Listener *);
 
     bool sendSegmentMessage(const BoeSegmentMessage *);
+
+    bool onTargetTransferRate(TargetTransferRate);    
 
 public:
     /*timer里调用的state方法*/

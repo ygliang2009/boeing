@@ -65,9 +65,9 @@ bool LoopEvent::__processMessage(char *recvBuff, BoeHeader *header) {
 
 	    if (BoeMsgProcessor::procConnectMsg(recvBuff, header, ackBuff)) {
                 session.uid = uid;
-                BoeReceiver* recv = session.createReceiver();
-		recv->setSession(&session);
-	        recv->setActive(uid);
+                IReceiver* recv = session.createReceiver();
+                if (recv == NULL)
+                    break;
                 conn->sendPacket(ackBuff);
 	    }
 	    free(ackBuff);
@@ -83,8 +83,10 @@ bool LoopEvent::__processMessage(char *recvBuff, BoeHeader *header) {
 	        return false;
             }
             if (session.getSender() == NULL) {
-	        BoeSender *sender = session.createSender();
-                sender->setSession(&session);
+	        ISender *sender = session.createSender();
+                if (sender == NULL)
+                    break;
+
                 session.state = SESSION_STATE_CONNECTED;
 	        session.interrupt = NET_STATE_RECOVER;
 	    }

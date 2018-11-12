@@ -68,9 +68,10 @@ bool Session::registerListener(Listener *list) {
      return true;
 }
 
-BoeSender* Session::createSender() {
+ISender* Session::createSender() {
     if (sender == NULL)
         sender = new BoeSender();
+
     sender->setSession(this);
     return sender;
 }
@@ -80,13 +81,15 @@ bool Session::destroySender() {
     return true;
 }
 
-BoeReceiver* Session::createReceiver() {
+IReceiver* Session::createReceiver() {
     if (recv == NULL)
         recv = new BoeReceiver();
 
     recv->setSession(this);
     recv->createComponent();
     recv->firState = FIR_NORMAL;
+    recv->setActive(uid);
+
     return recv;
 }
 
@@ -272,5 +275,9 @@ bool Session::sendSegmentMessage(const BoeSegmentMessage *segmentMessage) {
     __conn->sendPacket(p) ;
 
     free(p);      
+    return true;
+}
+
+bool Session::onTargetTransferRate(TargetTransferRate transferRate) {
     return true;
 } 
