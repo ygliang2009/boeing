@@ -12,4 +12,4 @@
 
 ### Notice
 
-<p>Just for study, no responsible for any bug or disaster that using online</p>
+<p><mark>Just for study, no responsible for any bug or disaster that using online</mark></p>
