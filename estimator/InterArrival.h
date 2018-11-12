@@ -10,8 +10,7 @@
 /*
  * 一组网络报文的收发时间戳，这个间隔统计算法是一直了webRTC中的GCC，这里时间戳都是毫秒级计算
  */
-class TimestampGroup {
-public:
+struct TimestampGroup {
     size_t size;
     uint32_t firstTs;
     uint32_t timestamp;
