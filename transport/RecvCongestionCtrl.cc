@@ -31,6 +31,7 @@ bool BoeRecvCongestionCtrl::procRccHeartbeat(char *respFeedbackMsg) {
 	return false;
     /*构造Feedback报文,5ms一次*/
     BoeFeedbackMessage feedbackMsg;
+    /*Feedback Message 包括丢包信息和延迟信息，都有频次控制*/
     if(lossStat.calculate(nowTs, &fractionLoss, &num)) {
     	feedbackMsg.flag |= LOSS_INFO_MSG; 
 	feedbackMsg.fractionLoss= fractionLoss;
@@ -45,4 +46,10 @@ bool BoeRecvCongestionCtrl::procRccHeartbeat(char *respFeedbackMsg) {
         feedbackMsg.Build(respFeedbackMsg);
     }
     return true;
+}
+
+bool BoeRecvCongestionCtrl::onBitrateChange(const uint32_t targetBitrate) {
+    if (estimateProxy ==  NULL)
+        return false;
+    return estimateProxy->onBitrateChange(targetBitrate); 
 }

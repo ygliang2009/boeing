@@ -4,7 +4,7 @@ BoeSender::BoeSender() {
     limiter = new SenderLimiter();
 
     scc = new BoeSendCongestionCtrl();
-    scc->registerTrigger(this);
+    scc->registeTrigger(this);
 
     firstTs = -1;
     actived = 0;
@@ -27,7 +27,7 @@ bool BoeSender::procSenderHeartbeat(int32_t currTs) {
     return true;
 }
 
-bool BoeSender::registerCallerCallback(Caller *call) {
+bool BoeSender::registeCaller(Caller *call) {
     if (this->caller != NULL)
         this->caller = call;
 

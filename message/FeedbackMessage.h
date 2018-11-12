@@ -48,7 +48,7 @@ public:
     uint8_t flag;
     /*loss info msg*/
     uint8_t fractionLoss;
-    int packetNum;
+    int32_t packetNum;
 
     /*proxy ts msg*/
     int64_t baseSeq;

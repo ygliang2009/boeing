@@ -17,7 +17,7 @@ BoeSendCongestionCtrl::~BoeSendCongestionCtrl() {
     CLEANUP(trigger);
 }
 
-bool BoeSendCongestionCtrl::registerTrigger(Trigger *trig) {
+bool BoeSendCongestionCtrl::registeTrigger(Trigger *trig) {
     if (trigger == NULL)
         trigger = trig;
 

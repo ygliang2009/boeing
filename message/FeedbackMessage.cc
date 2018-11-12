@@ -18,8 +18,8 @@ bool BoeFeedbackMessage::Process(const char *recvBuff, const BoeHeader *header) 
     p++;
     fractionLoss = *(uint8_t *)p;
     p++;
-    packetNum = *(int *)p;
-    p += sizeof(int);
+    packetNum = *(int32_t *)p;
+    p += sizeof(int32_t);
     baseSeq = *(int64_t *)p;
     p += 8;
     minTs = *(int64_t *)p;
@@ -42,7 +42,7 @@ bool BoeFeedbackMessage::Build(char *recvBuff) const {
     p++;
     *(uint8_t *)p = fractionLoss;
     p++;
-    *(int *)p = packetNum;
+    *(int32_t *)p = packetNum;
     p += sizeof(int);
     *(int64_t *)p = baseSeq;
     p += 8;

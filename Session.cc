@@ -62,7 +62,7 @@ bool Session::initSession() {
     return true;
 }
 
-bool Session::registerListener(Listener *list) {
+bool Session::registeListener(Listener *list) {
     if (listener != NULL)
         listener = list;
      return true;
@@ -73,6 +73,7 @@ ISender* Session::createSender() {
         sender = new BoeSender();
 
     sender->setSession(this);
+    sender->registeCaller(this);
     return sender;
 }
 
@@ -278,6 +279,14 @@ bool Session::sendSegmentMessage(const BoeSegmentMessage *segmentMessage) {
     return true;
 }
 
+/*
+ * 从Sender层触发的回调，当网络发生变化时，最后会执行到这个函数
+ */
 bool Session::onTargetTransferRate(TargetTransferRate transferRate) {
+    /*通知receiver，降低feedback调用次数*/
+    if (recv == NULL)
+         return false;
+      
+    recv->onBitrateChange(transferRate.targetRate);
     return true;
 } 

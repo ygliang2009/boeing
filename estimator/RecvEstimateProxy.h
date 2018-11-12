@@ -10,12 +10,15 @@
 #define MAX_IDS_NUM				100
 #define BACK_WINDOWS_MS				500
 
+#define MIN_SEND_INTERVAL_MS                    50
+#define MAX_SEND_INTERVAL_MS                    250
+
 class RecvEstimateProxy {
 public:
     /*通信报文头固定大小*/
     size_t headerSize;
     /*心跳时间戳, UNIX绝对时间戳，毫秒为单位*/
-    int64_t hbTs;
+    int64_t heartBeatTs;
     /*发送反馈间隔时间， 按照5%的总可用带宽计算间隔时间*/
     int64_t sendIntervalMs;
 
@@ -32,8 +35,8 @@ public:
     RecvEstimateProxy();
     ~RecvEstimateProxy();
     bool incoming(const uint64_t, const uint32_t, const uint16_t);
-    bool heartbeat(int64_t, BoeFeedbackMessage *);
-    bool bitrateChanged(const uint32_t bitrate);
+    
+    bool onBitrateChange(const uint32_t bitrate);
     bool procProxyHeartbeat(BoeFeedbackMessage *feedbackMsg);
 
 private:

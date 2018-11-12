@@ -15,11 +15,12 @@ public:
     virtual bool onTargetTransferRate(TargetTransferRate) = 0;
 
     virtual ISender* createSender() = 0;
+    virtual bool destroySender() = 0;
 
     virtual IReceiver* createReceiver() = 0;
+    virtual bool destroyReceiver() = 0;
 
 public:
-    Caller() {}
     virtual ~Caller() {}
 };
 

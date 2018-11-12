@@ -156,7 +156,7 @@ public:
     bool sessHeartbeat(const int64_t);
     bool sessCalculateRtt(const uint32_t);
     
-    bool registerListener(Listener *);
+    bool registeListener(Listener *);
 
     bool sendSegmentMessage(const BoeSegmentMessage *);
 

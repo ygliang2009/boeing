@@ -27,7 +27,7 @@ public:
     bool procSccHeartbeat();
     bool onNetworkChange(uint32_t, uint8_t, uint32_t);
 
-    bool registerTrigger(Trigger *trigger);
+    bool registeTrigger(Trigger *trigger);
     bool updateRtt(uint32_t);
     bool addPacket(const uint32_t, const int, const size_t);
 

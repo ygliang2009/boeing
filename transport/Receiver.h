@@ -146,6 +146,8 @@ public:
     bool createComponent();
     bool updateRtt(const uint32_t);
 
+    bool onBitrateChange(const uint32_t);
+
 private:
     bool __createFrameCache();
     bool __createCongestionCtrl();

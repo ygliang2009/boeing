@@ -83,7 +83,7 @@ public:
     /*处理feedback消息*/
     bool procFeedbackMsg(BoeFeedbackMessage*);
     /*注册call函数*/
-    bool registerCallerCallback(Caller *);
+    bool registeCaller(Caller *);
 
 private:
     uint16_t __splitFrame(uint16_t[], const size_t);

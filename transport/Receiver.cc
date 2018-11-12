@@ -289,3 +289,10 @@ bool BoeReceiver::setActive(const uint32_t uid) {
     cache->frameTimer = 50;
     return true;
 }
+
+bool BoeReceiver::onBitrateChange(const uint32_t targetBitrate) {
+    if (rcc != NULL)
+        return rcc->onBitrateChange(targetBitrate);
+
+    return true;
+}

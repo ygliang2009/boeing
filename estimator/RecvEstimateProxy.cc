@@ -4,7 +4,7 @@
 RecvEstimateProxy::RecvEstimateProxy() {
     headerSize = DEFAULT_PACKET_SIZE;
     ssrc = 0;
-    hbTs = -1;
+    heartBeatTs = -1;
     wndStartSeq = 0;
     maxArrivalSeq = 0; 
     sendIntervalMs = DEFAULT_PROXY_INTERVAL_TIME;
@@ -46,11 +46,16 @@ bool RecvEstimateProxy::incoming(const uint64_t arrivalTs, const uint32_t ssrc_,
     return true;
 }
 
-bool RecvEstimateProxy::heartbeat(int64_t cur_ts, BoeFeedbackMessage *feedbackMsg) {
-    return true;
-}
 
-bool RecvEstimateProxy::bitrateChanged(const uint32_t bitrate) {
+bool RecvEstimateProxy::onBitrateChange(const uint32_t bitrate) {
+    /*IP Header 20B, UDP Header 8B, BoeHeader 10B, FeedbackMessage 160+B */
+    int feedbackReportSize = 20 + 8 + 10 + 170;
+    double minReportRate = feedbackReportSize * 8.0 * 1000.0 / MAX_SEND_INTERVAL_MS;    
+    double maxReportRate = feedbackReportSize * 8.0 * 1000.0 / MIN_SEND_INTERVAL_MS;
+
+    sendIntervalMs = static_cast<int>(\
+        feedbackReportSize * 8.0 * 1000 /(0.5 + BOE_MIN(BOE_MAX(0.05 * bitrate, maxReportRate), minReportRate))); 
+
     return true;
 }
 
@@ -85,7 +90,8 @@ bool RecvEstimateProxy::__buildFeedbackMsg(BoeFeedbackMessage *feedbackMsg) {
 
 bool RecvEstimateProxy::procProxyHeartbeat(BoeFeedbackMessage *feedbackMsg) {
     int64_t nowTs = BaseTimer::getCurrentTime();
-    if ((nowTs - hbTs) < sendIntervalMs) {
+
+    if ((nowTs - heartBeatTs) < sendIntervalMs) {
         return false;	
     }
     return __buildFeedbackMsg(feedbackMsg); 
