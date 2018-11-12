@@ -4,7 +4,7 @@
 
 ### Description
 
-<p>Usage: The algorithm is for the transfer of udp reliable. Most of the parts are transformed from WebRTC  </p>
+<p>Usage: The algorithm is for the transfer of udp reliable. Most of the parts are transformed from WebRTC.  Sometimes we use these algorithm to build up a reliable UDP system which is always be mentioned by SD-RTN or some other UDP based topics </p>
 
 ### Compile
 
