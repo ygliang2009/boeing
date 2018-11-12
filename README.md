@@ -8,7 +8,7 @@
 
 ### Compile
 
-<p>Just execulte make command from the root dir of the project</p>
+<p>Just execute make command from the root dir of the project</p>
 
 ### Notice
 
