@@ -20,4 +20,4 @@
 ### FEC
 <p>The FEC module is to be added, the following diagram is mainly display the linking procedure when network change. This procedure is the following reaction of BitrateChangeCallback, which will trigger receiver update the frequency of sending FEEDBACK packet also. Allocating encoding rate is after FEC, will be the rest of FEEDBACK packet rate and FEC packet rate.</p>
 
-![Topology](https://raw.githubusercontent.com/ygliang2009/boeing/master/image/2.jpg)
+![Topology](https://raw.githubusercontent.com/ygliang2009/boeing/master/image/3.jpg)
