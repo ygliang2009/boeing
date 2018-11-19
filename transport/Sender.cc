@@ -19,7 +19,7 @@ BoeSender::~BoeSender() {
     CLEANUP(scc);
 }
 
-bool BoeSender::procSenderHeartbeat(int32_t currTs) {
+bool BoeSender::procSenderHeartbeat(const int32_t &currTs) {
     if (scc == NULL)
         return false;
 
@@ -51,7 +51,7 @@ bool BoeSender::networkChangeTrigger(uint32_t bitrate, uint8_t fractionLoss, uin
 }
 
 /*更新scc的rtt值，rtt值传入到onLossInfoResult函数中*/
-bool BoeSender::updateRtt(const uint32_t rtt) const {
+bool BoeSender::updateRtt(const uint32_t &rtt) const {
     if (scc == NULL)
         return false;
     
@@ -63,7 +63,7 @@ bool BoeSender::updateRtt(const uint32_t rtt) const {
 
 /*将视频帧拆解成packet进行发送*/
 bool BoeSender::addPackets(\
-        const uint8_t payloadType, const uint8_t ftype, const uint8_t* data, const size_t size) {
+    const uint8_t &payloadType, const uint8_t &ftype, const uint8_t* data, const size_t &size) {
 
     BoeSegmentMessage *segMsg;
     int64_t nowTs;
@@ -108,7 +108,7 @@ bool BoeSender::addPackets(\
     return true;
 }
 
-uint16_t BoeSender::__splitFrame(uint16_t splits[], size_t size) {
+uint16_t BoeSender::__splitFrame(uint16_t splits[], const size_t &size) {
     uint16_t ret, i;
     uint16_t remainSize;
 
@@ -179,7 +179,7 @@ bool BoeSender::procSegmentAck(BoeSegmentAckMessage *segmentAckMsg) {
 }
 
 /*根据发送来的basePacketId更新cache的值*/
-bool BoeSender::__upCacheAccodingBase(const uint32_t ackBasedId) {
+bool BoeSender::__upCacheAccodingBase(const uint32_t &ackBasedId) {
     std::map<uint64_t, BoeSegmentMessage* >::iterator sendingIter = sendingCache.find(basePacketId);
     
     while ((sendingIter->first < ackBasedId) && (sendingIter != sendingCache.end())) {
@@ -190,7 +190,9 @@ bool BoeSender::__upCacheAccodingBase(const uint32_t ackBasedId) {
 }
 
 /*packetId 一般都是从Pace队列中取出来的，然后根据这个id作为key在sendingCache缓存中查找并发送出去*/
-bool BoeSender::sendCallback(const uint32_t packetId, const int retrans, const size_t size) {
+bool BoeSender::sendCallback(\
+    const uint32_t &packetId, const int &retrans, const size_t &size) {
+
     std::map<uint64_t, BoeSegmentMessage *>::iterator cacheIter = sendingCache.find(packetId);
     if (cacheIter == sendingCache.end()) {
 	return false;

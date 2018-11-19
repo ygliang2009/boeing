@@ -34,7 +34,7 @@ public:
     ~TrendlineEstimator();
 
 public:
-    void updateTrendline(const double, const double, const int64_t);
+    void updateTrendline(const double &, const double &, const int64_t &);
     double trendlineSlope() const;
 
 private:

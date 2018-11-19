@@ -73,7 +73,7 @@ public:
     uint32_t endIndex;
         
 public:
-    SenderBitrateEstimation(const uint32_t, const uint32_t);
+    SenderBitrateEstimation(uint32_t, uint32_t);
     ~SenderBitrateEstimation();
 
     uint32_t getMinBitrate() const {
@@ -81,13 +81,13 @@ public:
     }
 
     /*设置最小码率*/
-    bool setMinBitrate(const uint32_t minBitrate) {
+    bool setMinBitrate(const uint32_t &minBitrate) {
 	minConfBitrate = BOE_MIN(minConfBitrate, minBitrate);
 	return true;
     }
 
     /*设置最大码率*/
-    bool setMaxBitrate(const uint32_t maxBitrate) {
+    bool setMaxBitrate(const uint32_t &maxBitrate) {
         if (maxConfBitrate > 0)
 	    maxConfBitrate = BOE_MAX(maxConfBitrate, maxBitrate);
     	else 
@@ -96,26 +96,26 @@ public:
     }
 
     /*设置发送码率*/
-    bool setSendBitrate(const uint32_t);
+    bool setSendBitrate(const uint32_t &);
 
     /*分别设置最小码率，最大码率，发送码率*/
-    bool setBitrates(const uint32_t, const uint32_t, const uint32_t);
+    bool setBitrates(const uint32_t &, const uint32_t &, const uint32_t &);
     /*更新基于延迟的码率控制bitrate参数*/
-    bool updateDelayBase(const int64_t curTs, const uint32_t bitrate, const int state);
+    bool updateDelayBase(const int64_t &curTs, const uint32_t &bitrate, const int &state);
 
     bool updateReceiverBlock(\
-        const uint8_t, const uint32_t, const int, const int64_t, const int32_t);
+        const uint8_t &, const uint32_t &, const int &, const int64_t &, const int32_t &);
 
-    bool updateEstimation(const uint32_t, const uint32_t);
+    bool updateEstimation(const uint32_t &, const uint32_t &);
 
 private:
-    double __slopeFilterUpdate(const int);
+    double __slopeFilterUpdate(const int &);
 
-    bool __updateMinHistory(const int32_t);
+    bool __updateMinHistory(const int32_t &);
     
-    bool __capBitrateToThreshold(const uint64_t, const uint32_t);
+    bool __capBitrateToThreshold(const uint64_t &, const uint32_t &);
     
-    bool __isInStartPhase(const int64_t currTs) const;
+    bool __isInStartPhase(const int64_t &currTs) const;
 };
 
 #endif

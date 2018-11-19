@@ -1,7 +1,7 @@
 #include "SenderBitrateEstimation.h"
 
 SenderBitrateEstimation::SenderBitrateEstimation(\
-    const uint32_t minBitrate, const uint32_t maxBitrate) {
+    uint32_t minBitrate, uint32_t maxBitrate) {
 
     minConfBitrate = minBitrate;
     maxConfBitrate = maxBitrate;
@@ -25,7 +25,7 @@ SenderBitrateEstimation::~SenderBitrateEstimation() {
 
 }
 
-bool SenderBitrateEstimation::setSendBitrate(const uint32_t sendBitrate) {
+bool SenderBitrateEstimation::setSendBitrate(const uint32_t &sendBitrate) {
     if(!__capBitrateToThreshold(BaseTimer::getCurrentTime(), sendBitrate)) {
         return false;
     }
@@ -36,7 +36,7 @@ bool SenderBitrateEstimation::setSendBitrate(const uint32_t sendBitrate) {
 
 
 bool SenderBitrateEstimation::setBitrates(\
-    const uint32_t sendBitrate, const uint32_t minBitrate, const uint32_t maxBitrate) {
+    const uint32_t &sendBitrate, const uint32_t &minBitrate, const uint32_t &maxBitrate) {
 
     if (!setMinBitrate(minBitrate))
         return false;
@@ -49,7 +49,7 @@ bool SenderBitrateEstimation::setBitrates(\
 
 /*基于延迟的码率预估完成后，会调用这个函数，bitrate为基于延迟的码率预估结果*/
 bool SenderBitrateEstimation::updateDelayBase(\
-    const int64_t curTs, const uint32_t bitrate, const int st) {
+    const int64_t &curTs, const uint32_t &bitrate, const int &st) {
     
     delayBaseBitrate = bitrate;
     state = st;
@@ -60,7 +60,7 @@ bool SenderBitrateEstimation::updateDelayBase(\
  * slope.acc是一个累加值，在达到LOSS_WND_SIZE之前，这个值不断累加
  * 超过LOSS_WND_SIZE以后，每次acc = acc - frag + 本次delta;
  */
-double SenderBitrateEstimation::__slopeFilterUpdate(const int delta) {
+double SenderBitrateEstimation::__slopeFilterUpdate(const int &delta) {
     slopes.slope  = 255;
     slopes.index ++;
     slopes.acc -= slopes.frags[slopes.index % LOSS_WND_SIZE];
@@ -77,8 +77,8 @@ double SenderBitrateEstimation::__slopeFilterUpdate(const int delta) {
 
 /*更新接收端汇报的丢失延迟数据*/
 bool SenderBitrateEstimation::updateReceiverBlock(\
-    const uint8_t fractionLoss, const uint32_t rtt, const int numberOfPackets, \
-        const int64_t currTs, const int32_t ackedBitrate)  {
+    const uint8_t &fractionLoss, const uint32_t &rtt, const int &numberOfPackets, \
+        const int64_t &currTs, const int32_t &ackedBitrate)  {
 
     int lostPacketsQ8;
     
@@ -115,7 +115,7 @@ bool SenderBitrateEstimation::updateReceiverBlock(\
 }
 
 bool SenderBitrateEstimation::updateEstimation(\
-    const uint32_t currTs, const uint32_t ackedBitrate) {
+    const uint32_t &currTs, const uint32_t &ackedBitrate) {
     /*
      *  在起始的2s时间，如果没有丢包，算法会允许进行起始阶段的码率探测
      *  调节的码率值参考REMB and/or delayBased estimator 
@@ -195,7 +195,7 @@ bool SenderBitrateEstimation::updateEstimation(\
     return true;
 }
 
-bool SenderBitrateEstimation::__isInStartPhase(const int64_t currTs) const {
+bool SenderBitrateEstimation::__isInStartPhase(const int64_t &currTs) const {
     if (firstReportTs == -1 || currTs < firstReportTs + START_PHASE_MS) {
 	return true;
     }
@@ -207,7 +207,7 @@ bool SenderBitrateEstimation::__isInStartPhase(const int64_t currTs) const {
  * 更新最小码率历史记录
  *    minBitrates保存的是1s之内的minBitrates, beginIndex到endIndex按照minBitrate从小到大排列
  */
-bool SenderBitrateEstimation::__updateMinHistory(const int32_t currTs) {
+bool SenderBitrateEstimation::__updateMinHistory(const int32_t &currTs) {
     uint32_t i, pos;
     /*删除超过1s间隔的记录*/
     for (i = beginIndex; i < endIndex; ++i) {
@@ -246,7 +246,7 @@ bool SenderBitrateEstimation::__updateMinHistory(const int32_t currTs) {
 
 /*基于预估出来的bitrate, delay-based bitrate, bwe-incoming bitrate 取其中的最小值 */
 bool SenderBitrateEstimation::__capBitrateToThreshold(\
-    const uint64_t currTs, const uint32_t bitrate) {
+    const uint64_t &currTs, const uint32_t &bitrate) {
 
     uint32_t finalBitrate = bitrate;
 

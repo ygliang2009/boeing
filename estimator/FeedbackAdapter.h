@@ -21,7 +21,7 @@ public:
     ~FeedbackAdapter();
 
 public:
-    bool addPacket(const uint64_t, const size_t);
+    bool addPacket(const uint64_t &, const size_t &);
     bool adapterOnFeedback(const BoeFeedbackMessage *);
 
 public:

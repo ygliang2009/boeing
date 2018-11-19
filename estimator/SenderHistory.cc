@@ -38,7 +38,9 @@ bool SenderHistory::historyAdd(FeedbackPacket *feedbackPacket) {
     return true;
 }
 
-int SenderHistory::historyGet(const uint16_t seq, FeedbackPacket *feedbackPacket, int removeFlag) {
+int SenderHistory::historyGet(\
+    const uint16_t &seq, FeedbackPacket *feedbackPacket, const int &removeFlag) {
+
     std::map<uint16_t, FeedbackPacket *>::iterator iter;
 
     for (int64_t i = lastAckSeqNum; i < feedbackPacket->sequenceNumber; i++) {

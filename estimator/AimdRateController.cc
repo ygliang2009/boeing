@@ -1,6 +1,6 @@
 #include "AimdRateController.h"
 
-AimdRateController::AimdRateController(const uint32_t maxrate, const uint32_t minrate) {
+AimdRateController::AimdRateController(uint32_t maxrate, uint32_t minrate) {
     maxBitrate = maxrate;
     minBitrate = minrate;
 
@@ -24,30 +24,30 @@ AimdRateController::~AimdRateController() {
 
 }
 
-bool AimdRateController::setRtt(const uint32_t rt) {
+bool AimdRateController::setRtt(const uint32_t &rt) {
     rtt = rt;
     return true;
 }
 
-bool AimdRateController::setStartBitrate(const uint32_t bitrate) {
+bool AimdRateController::setStartBitrate(const uint32_t &bitrate) {
     currentBitrate = bitrate;
     inited = 0;
     return true;
 }
 
-bool AimdRateController::setMaxBitrate(const uint32_t maxbitrate) {
+bool AimdRateController::setMaxBitrate(const uint32_t &maxbitrate) {
     maxBitrate = maxbitrate;
     currentBitrate = BOE_MIN(currentBitrate, maxBitrate);
     return true;
 }
 
-bool AimdRateController::setMinBitrate(const uint32_t minbitrate) {
+bool AimdRateController::setMinBitrate(const uint32_t &minbitrate) {
     minBitrate = minbitrate;
     currentBitrate = BOE_MAX(currentBitrate, minBitrate);
     return true;
 } 
 
-bool AimdRateController::setEstimateBitrate(const int bitrate, const int64_t nowTs) {
+bool AimdRateController::setEstimateBitrate(uint32_t bitrate, const int64_t &nowTs) {
     inited = 0;
     currentBitrate = __clampBitrate(bitrate, bitrate);
     timeLastBitrateChange = nowTs;
@@ -55,8 +55,8 @@ bool AimdRateController::setEstimateBitrate(const int bitrate, const int64_t now
 }
 
 /*带宽区间保护*/
-uint32_t AimdRateController::__clampBitrate(uint32_t newBitrate, const uint32_t comingBitrate) {
-    const uint32_t maxBitrateBps = 3 * comingBitrate / 2 + 10000;
+uint32_t AimdRateController::__clampBitrate(uint32_t &newBitrate, const uint32_t &comingBitrate) {
+    uint32_t maxBitrateBps = 3 * comingBitrate / 2 + 10000;
 
     if (newBitrate > currentBitrate && newBitrate > maxBitrateBps) {
 	newBitrate = BOE_MAX(currentBitrate, maxBitrateBps);
@@ -66,7 +66,7 @@ uint32_t AimdRateController::__clampBitrate(uint32_t newBitrate, const uint32_t 
 }
 
 /*根据当前的rtt值判断是否可以进行带宽调节*/
-bool AimdRateController::rateControlPermit(const int64_t nowTs, const uint32_t incomingRate) {
+bool AimdRateController::rateControlPermit(const int64_t &nowTs, const uint32_t &incomingRate) {
     int64_t reduceInterval = BOE_MAX(BOE_MIN(200, rtt), 10);
 
     /*如果超过了可调节带宽时间，则返回true*/
@@ -82,7 +82,9 @@ bool AimdRateController::rateControlPermit(const int64_t nowTs, const uint32_t i
 }
 
 /*输入预测的带宽，进行aimd带宽调整*/
-uint32_t AimdRateController::updateCurrentBitrate(const uint32_t ackedBitrate, const int state, const int64_t nowTs) {
+uint32_t AimdRateController::updateCurrentBitrate(\
+    const uint32_t &ackedBitrate, const int &state, const int64_t &nowTs) {
+
     if (inited == -1) {
 	if (timeFirstEstimate < 0) {
 	    /*确定第一次update的时间戳*/
@@ -101,7 +103,8 @@ uint32_t AimdRateController::updateCurrentBitrate(const uint32_t ackedBitrate, c
 }
 
 uint32_t AimdRateController::__changeBitrate(\
-    uint32_t newBitrate, const int state, const uint32_t ackedBitrate, const int64_t nowTs) {
+    uint32_t &newBitrate, const int &state, const uint32_t &ackedBitrate, \
+        const int64_t &nowTs) {
    
     float ackedKbitrate, maxKbitrate;
  
@@ -167,7 +170,7 @@ uint32_t AimdRateController::__changeBitrate(\
     return __clampBitrate(newBitrate, ackedBitrate);
 }
 
-bool AimdRateController::__changeState(const int state, const uint32_t ackedBitrate, const int64_t nowTs) {
+bool AimdRateController::__changeState(const int &state, const uint32_t &ackedBitrate, const int64_t &nowTs) {
     switch (state) {
     /*
      * 需要连续两次Normal状态才能达到Increase状态
@@ -195,13 +198,13 @@ bool AimdRateController::__changeState(const int state, const uint32_t ackedBitr
     return true;
 }
 
-bool AimdRateController::__changeMaxBandwidthRegion(const int r) {
+bool AimdRateController::__changeMaxBandwidthRegion(const int &r) {
     region = r;
     return true;
 }
 
 /*当前预估的带宽只影响到avgMaxBitrateKbps的0.05*/
-bool AimdRateController::__updateMaxBitrateEstimate(const float incomingBitrateKbps) {
+bool AimdRateController::__updateMaxBitrateEstimate(const float &incomingBitrateKbps) {
     const float alpha = 0.05f;
     if (avgMaxBitrateKbps == -1.0f)
 	avgMaxBitrateKbps = incomingBitrateKbps;
@@ -227,12 +230,12 @@ bool AimdRateController::__updateMaxBitrateEstimate(const float incomingBitrateK
     return true;
 }
 
-uint32_t AimdRateController::__additiveRateIncrease(const int64_t nowTs, const int64_t lastTs) {
+uint32_t AimdRateController::__additiveRateIncrease(const int64_t &nowTs, const int64_t &lastTs) {
     return (uint32_t)(nowTs - lastTs) * __getNearMaxIncRate() / 1000;
 }
 
 uint32_t AimdRateController::__multiRateIncrease(\
-    const int64_t nowTs, const int64_t lastTs, const uint32_t currentBitrate) {
+    const int64_t &nowTs, const int64_t &lastTs, const uint32_t &currentBitrate) {
 
     double alpha = 1.08;
     uint32_t tsSince;

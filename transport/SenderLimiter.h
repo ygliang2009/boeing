@@ -25,11 +25,11 @@ public:
 
     ~SenderLimiter();
 
-    bool limiterUpdate(const size_t, const int64_t);
+    bool limiterUpdate(const size_t &, const int64_t &);
 
-    bool limiterTrySend(const size_t, const int64_t); 
+    bool limiterTrySend(const size_t &, const int64_t &); 
 
-    bool __limiterRemove(const uint64_t);
+    bool __limiterRemove(const uint64_t &);
 };
 
 #endif

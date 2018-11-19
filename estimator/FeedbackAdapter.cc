@@ -15,7 +15,7 @@ FeedbackAdapter::~FeedbackAdapter() {
     CLEANUP(history);
 }
 
-bool FeedbackAdapter::addPacket(const uint64_t transSeq, const size_t transSize) {
+bool FeedbackAdapter::addPacket(const uint64_t &transSeq, const size_t &transSize) {
     if (history == NULL)
         return false;
 

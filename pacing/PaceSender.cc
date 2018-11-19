@@ -13,21 +13,23 @@ PaceSender::~PaceSender() {
 }
 
 
-bool PaceSender::setEstimateBitrate(const uint32_t bitrateBps) {
+bool PaceSender::setEstimateBitrate(const uint32_t &bitrateBps) {
     estimatedBitrate = bitrateBps;
     pacingBitrateKbps = BOE_MAX(bitrateBps / 1000, minSenderBitrateKbps) * DEFAULT_PACE_FACTOR;
     alr->setBitrate(bitrateBps);
     return true;
 }
 
-bool PaceSender::setBitrateLimits(const uint32_t minSentBitrateBps) {
+bool PaceSender::setBitrateLimits(const uint32_t &minSentBitrateBps) {
     minSenderBitrateKbps = minSentBitrateBps / 1000;
     pacingBitrateKbps = BOE_MAX(estimatedBitrate / 1000, minSenderBitrateKbps) * DEFAULT_PACE_FACTOR;
     return true;
 }
 
 /*将一个即将要发送的报文放入排队队列中*/
-int PaceSender::insertPacket(const uint32_t seq, const int retrans, const size_t size, const int64_t nowTs) {
+int PaceSender::insertPacket(\
+    const uint32_t &seq, const int &retrans, const size_t &size, const int64_t &nowTs) {
+
     PacketEvent* ev = new PacketEvent();
     ev->seq = seq;
     ev->retrans = retrans;
@@ -64,7 +66,7 @@ bool PaceSender::paceSend(PacketEvent *ev) {
     return true;
 }
 
-bool PaceSender::sendPacket(const uint32_t seq, const int retrans, const size_t size) {
+bool PaceSender::sendPacket(const uint32_t &seq, const int &retrans, const size_t &size) {
     if (sender == NULL)
 	return false;
 
@@ -72,7 +74,7 @@ bool PaceSender::sendPacket(const uint32_t seq, const int retrans, const size_t 
     return true;
 }
 
-bool PaceSender::tryTransmit(const int64_t nowTs) {
+bool PaceSender::tryTransmit(const int64_t &nowTs) {
     int elapseMs, sentBytes = 0; 
     uint32_t targetBitrateKbps;
     //发送频率5ms

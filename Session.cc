@@ -99,7 +99,7 @@ bool Session::destroyReceiver() {
     return true;
 }
 
-bool Session::sessHeartbeat(const int64_t nowTs) {
+bool Session::sessHeartbeat(const int64_t &nowTs) {
     if (recv == NULL)
         return false;
     recv->procRecvHeartbeat(nowTs);
@@ -127,7 +127,7 @@ bool Session::sessHeartbeat(const int64_t nowTs) {
     return true;
 }
 
-bool Session::__sessOnTimer(int64_t nowTs, uint8_t stateNo) {
+bool Session::__sessOnTimer(const int64_t &nowTs, uint8_t stateNo) {
     std::map<uint8_t, TimeStateMember *>::iterator it = timeStateTable.find(stateNo);
     if (it == timeStateTable.end() || it->second == NULL)
         return false;
@@ -157,7 +157,7 @@ bool Session::notify(uint32_t notifyNo) {
     return true;
 }
 
-bool Session::sendConnectState(const int64_t nowTs) {
+bool Session::sendConnectState(const int64_t &nowTs) {
     /*update until online */
     char *sendingBuff = (char *)malloc(sizeof(char) * MTU); 
     BoeHeader header;
@@ -186,7 +186,7 @@ bool Session::sendConnectState(const int64_t nowTs) {
     return true;
 }
 
-bool Session::sendDisconnectState(const int64_t nowTs) {
+bool Session::sendDisconnectState(const int64_t &nowTs) {
     /*update until online */
     char *sendingBuff = (char *)malloc(sizeof(char) * MTU); 
     BoeHeader header;
@@ -210,7 +210,7 @@ bool Session::sendDisconnectState(const int64_t nowTs) {
     return true;
 }
 
-bool Session::sendPingState(const int64_t nowTs) {
+bool Session::sendPingState(const int64_t &nowTs) {
     BoeHeader header;
     header.uid = uid;
     header.mid = MSG_PING;
@@ -241,7 +241,7 @@ bool Session::sendPingState(const int64_t nowTs) {
 }
 
 /*完成一次PING PONG会调用这个函数*/
-bool Session::sessCalculateRtt(const uint32_t keepRtt) {
+bool Session::sessCalculateRtt(const uint32_t &keepRtt) {
     uint32_t keepRttVar = keepRtt;
     if (keepRttVar < 5)
         keepRttVar = 5;

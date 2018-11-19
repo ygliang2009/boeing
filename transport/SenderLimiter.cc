@@ -13,7 +13,7 @@ SenderLimiter::~SenderLimiter() {
     free(buckets);
 }
 
-bool SenderLimiter::limiterUpdate(const size_t size, const int64_t nowTs) {
+bool SenderLimiter::limiterUpdate(const size_t &size, const int64_t &nowTs) {
     int offset;
     if (nowTs < oldestTs)
 	return false;
@@ -32,7 +32,7 @@ bool SenderLimiter::limiterUpdate(const size_t size, const int64_t nowTs) {
 }
 
 /*判断是否可以进行发送报文*/
-bool SenderLimiter::limiterTrySend(const size_t size, const int64_t nowTs) {
+bool SenderLimiter::limiterTrySend(const size_t &size, const int64_t &nowTs) {
     if (nowTs < oldestTs) 
         return 0;
 
@@ -43,7 +43,7 @@ bool SenderLimiter::limiterTrySend(const size_t size, const int64_t nowTs) {
     return (size + winBytes > threshold) ? false : true;
 }
 
-bool SenderLimiter::__limiterRemove(const uint64_t nowTs) {
+bool SenderLimiter::__limiterRemove(const uint64_t &nowTs) {
     int offset = -1, i = 0, idx;
     offset = nowTs - oldestTs;
     if (offset < winSize + index) {

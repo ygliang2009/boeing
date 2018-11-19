@@ -13,7 +13,9 @@ AckBitrateEstimator::~AckBitrateEstimator() {
 
 }
 
-bool AckBitrateEstimator::incomingArrivalPackets(FeedbackPacket feedbackPacket[], int size) {
+bool AckBitrateEstimator::incomingArrivalPackets(
+    FeedbackPacket feedbackPacket[], const int &size) {
+
     int i = 0;
     for (; i < size; i++) {
 	if(feedbackPacket[i].sendTs >= 0) {
@@ -24,7 +26,7 @@ bool AckBitrateEstimator::incomingArrivalPackets(FeedbackPacket feedbackPacket[]
     return false;
 }
 
-bool AckBitrateEstimator::__maybeExpectFastChange(int64_t packetSendTs) {
+bool AckBitrateEstimator::__maybeExpectFastChange(const int64_t &packetSendTs) {
     /*
      * 将码率设置到一个变化较大的范围因子，这个和pacer有关
      * 判断条件：报文发送时间 > 当前时间
@@ -36,7 +38,7 @@ bool AckBitrateEstimator::__maybeExpectFastChange(int64_t packetSendTs) {
     return true;
 }
 
-bool AckBitrateEstimator::__update(const int64_t arrivalTs, const size_t payloadSize) {
+bool AckBitrateEstimator::__update(int64_t arrivalTs, const size_t &payloadSize) {
     float bitrateSample, sampleUncertainty, sampleVar, predBitrateEstimateVar;
     int rateWindowsMs = RATE_WND_MS;
     
@@ -58,7 +60,7 @@ bool AckBitrateEstimator::__update(const int64_t arrivalTs, const size_t payload
     return true;
 }
 
-float AckBitrateEstimator::__updateWindow(const int64_t nowTs, const size_t size, const int rateWndMs) {
+float AckBitrateEstimator::__updateWindow(int64_t nowTs, const size_t &size, const int &rateWndMs) {
     float bitrateSample;
     if (nowTs < prevTs) {
 	prevTs = -1;
@@ -94,7 +96,7 @@ uint32_t AckBitrateEstimator::ackEstimatorBitrateBps() const {
     return (uint32_t)(bitrateEstimate * 1000);
 }
 
-bool AckBitrateEstimator::setAlrEnded(const int64_t ts) {
+bool AckBitrateEstimator::setAlrEnded(int64_t &ts) {
     alrEndedTs = ts;
     return true;
 }

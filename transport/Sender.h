@@ -69,25 +69,25 @@ public:
 
     bool createSendingCache();
 
-    bool procSenderHeartbeat(int32_t currTs);
+    bool procSenderHeartbeat(const int32_t &currTs);
 
     bool networkChangeTrigger(uint32_t, uint8_t, uint32_t);
 
-    bool updateRtt(const uint32_t) const;
+    bool updateRtt(const uint32_t &) const;
 
-    bool addPackets(const uint8_t, const uint8_t, const uint8_t*, const size_t);
+    bool addPackets(const uint8_t &, const uint8_t &, const uint8_t*, const size_t &);
 
     bool procSegmentAck(BoeSegmentAckMessage* );
 
-    bool sendCallback(const uint32_t, const int, const size_t);
+    bool sendCallback(const uint32_t &, const int &, const size_t &);
     /*处理feedback消息*/
     bool procFeedbackMsg(BoeFeedbackMessage*);
     /*注册call函数*/
     bool registeCaller(Caller *);
 
 private:
-    uint16_t __splitFrame(uint16_t[], const size_t);
-    bool __upCacheAccodingBase(const uint32_t);
+    uint16_t __splitFrame(uint16_t[], const size_t &);
+    bool __upCacheAccodingBase(const uint32_t &);
 };
 
 #endif

@@ -28,10 +28,10 @@ public:
     ~OveruseDetector();
 
 public:
-    int overuseDetect(const double, const double, const int, const int64_t);
+    int overuseDetect(const double &, const double &, const int &, const int64_t &);
 
 private:
-    void __updateThreshold(const double modifiedOffset, const int64_t nowTs);
+    void __updateThreshold(const double &modifiedOffset, const int64_t &nowTs);
 };
 
 #endif

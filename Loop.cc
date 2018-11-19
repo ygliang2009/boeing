@@ -40,7 +40,7 @@ bool LoopEvent::run() {
     return true;
 }
 
-bool LoopEvent::__processHeartbeat(int64_t current_ts) {
+bool LoopEvent::__processHeartbeat(const int64_t &current_ts) {
     session.sessHeartbeat(current_ts);
     return true;
 }

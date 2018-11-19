@@ -22,13 +22,13 @@ public:
     float bitrateEstimateVar;
 
 public:
-    bool incomingArrivalPackets(FeedbackPacket[], int);
+    bool incomingArrivalPackets(FeedbackPacket[], const int &);
     uint32_t ackEstimatorBitrateBps() const;
-    bool setAlrEnded(const int64_t);
+    bool setAlrEnded(int64_t &);
 
 private:
-    bool __maybeExpectFastChange(int64_t);
-    float __updateWindow(const int64_t, const size_t, const int);
-    bool __update(const int64_t, const size_t);
+    bool __maybeExpectFastChange(const int64_t&);
+    float __updateWindow(int64_t, const size_t &, const int &);
+    bool __update(int64_t, const size_t &);
 };
 #endif

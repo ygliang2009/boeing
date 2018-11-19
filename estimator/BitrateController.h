@@ -37,16 +37,18 @@ public:
     BitrateController(BoeSendCongestionCtrl *);
     ~BitrateController();
     
-    bool setStartBitrate(const uint32_t startBitrate);
-    bool procBitrateHeartbeat(const int64_t, const uint32_t);
+    bool setStartBitrate(const uint32_t &startBitrate);
+    bool procBitrateHeartbeat(const int64_t &, const uint32_t &);
 
-    bool setBitrates(const uint32_t, const uint32_t, const uint32_t);
-    bool resetBitrates(const uint32_t, const uint32_t, const uint32_t);
+    bool setBitrates(const uint32_t &, const uint32_t &, const uint32_t &);
+    bool resetBitrates(const uint32_t &, const uint32_t &, const uint32_t &);
 
-    bool onLossInfoResult(const uint32_t, const int64_t, const uint8_t, const int, const uint32_t);
-    bool onDelayBasedResult(const int, const int, const uint32_t, const int);
+    bool onLossInfoResult(const uint32_t &, const int64_t &, \
+        const uint8_t &, const int &, const uint32_t &);
 
-    int getParameter(uint32_t*, uint8_t*, uint32_t*);
+    bool onDelayBasedResult(const int &, const int &, const uint32_t &, const int &);
+
+    int getParameter(uint32_t &, uint8_t &, uint32_t &);
 
 private:
     bool __maybeTriggerNetworkChanged();

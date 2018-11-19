@@ -17,12 +17,12 @@ public:
     int canBuildupUnderuse;
 
 public:
-    IntervalBudget(const int, const int);
+    IntervalBudget(int, int);
     ~IntervalBudget();
 
-    bool setTargetRateKbps(const int);
-    bool increaseBudget(const int);
-    bool useBudget(const int);
+    bool setTargetRateKbps(const int &);
+    bool increaseBudget(const int &);
+    bool useBudget(const int &);
     bool budgetLevelPercent() const;
     size_t budgetRemaining() const;
 };

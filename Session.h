@@ -80,7 +80,7 @@ enum {
 class BoeSender;
 class BoeReceiver;
 
-typedef bool (Session::*StateCallback)(int64_t nowTs);
+typedef bool (Session::*StateCallback)(const int64_t &nowTs);
 
 class TimeStateMember {
 public:
@@ -153,8 +153,8 @@ public:
     IReceiver* createReceiver();
     bool destroyReceiver();
 
-    bool sessHeartbeat(const int64_t);
-    bool sessCalculateRtt(const uint32_t);
+    bool sessHeartbeat(const int64_t &);
+    bool sessCalculateRtt(const uint32_t &);
     
     bool registeListener(Listener *);
 
@@ -164,13 +164,13 @@ public:
 
 public:
     /*timer里调用的state方法*/
-    bool sendConnectState(const int64_t);
-    bool sendDisconnectState(const int64_t);
-    bool sendPingState(const int64_t);
+    bool sendConnectState(const int64_t &);
+    bool sendDisconnectState(const int64_t &);
+    bool sendPingState(const int64_t &);
     bool notify(uint32_t);
 
 private:
-    bool __sessOnTimer(int64_t, uint8_t);
+    bool __sessOnTimer(const int64_t &, uint8_t);
 
 private:
     BoeSender *sender;  

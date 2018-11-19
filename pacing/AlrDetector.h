@@ -19,8 +19,8 @@ public:
     int64_t alrStartTimestamp;
 
 public:
-    bool bytesSent(const size_t, const int64_t);
-    bool setBitrate(const int);
+    bool bytesSent(const size_t &, const int64_t &);
+    bool setBitrate(const int &);
     int64_t getAppLimitedStartedTs() const;
 public:
     AlrDetector();

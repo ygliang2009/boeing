@@ -24,17 +24,17 @@ public:
     PaceSender();
     ~PaceSender();
 
-    bool setEstimateBitrate(const uint32_t);
-    bool setBitrateLimits(const uint32_t);
-    int insertPacket(const uint32_t, const int, const size_t, const int64_t);
+    bool setEstimateBitrate(const uint32_t &);
+    bool setBitrateLimits(const uint32_t &);
+    int insertPacket(const uint32_t &, const int &, const size_t &, const int64_t &);
     int64_t getQueueMs() const;
     size_t getQueueSize() const;
     int64_t expectedQueueMs() const;
     int64_t getLimitedStartTime() const;
 
     bool paceSend(PacketEvent *);
-    bool sendPacket(uint32_t, int, size_t);
-    bool tryTransmit(const int64_t nowTs);
+    bool sendPacket(const uint32_t &, const int &, const size_t &);
+    bool tryTransmit(const int64_t &nowTs);
 
     bool setSender(BoeSender *);
     uint64_t getLimitedStartTime();

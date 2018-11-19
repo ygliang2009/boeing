@@ -19,10 +19,10 @@ public:
     ~BoeRecvCongestionCtrl();
     
     bool sendCallback();
-    bool onReceived(const uint16_t, const uint32_t, const size_t);
+    bool onReceived(const uint16_t &, const uint32_t &, const size_t &);
     bool procRccHeartbeat(char *);
 
-    bool onBitrateChange(const uint32_t);
+    bool onBitrateChange(const uint32_t &);
 };
 
 #endif

@@ -100,7 +100,7 @@ public:
     BoeReceiver();
     ~BoeReceiver();
 
-    void setBaseUid(const uint64_t );
+    void setBaseUid(const uint64_t &);
     bool heartBeat();
     /*接收端拥塞控制对象心跳，建议每5ms一次*/ 
     bool onReceived();    
@@ -140,20 +140,20 @@ public:
     Session *session;
 
 public:
-    bool setActive(const uint32_t);
-    bool ackSegmentMessage(char *, const uint32_t); 
-    bool procRecvHeartbeat(const uint64_t);
+    bool setActive(const uint32_t &);
+    bool ackSegmentMessage(char *, const uint32_t &); 
+    bool procRecvHeartbeat(const uint64_t &);
     bool createComponent();
-    bool updateRtt(const uint32_t);
+    bool updateRtt(const uint32_t &);
 
-    bool onBitrateChange(const uint32_t);
+    bool onBitrateChange(const uint32_t &);
 
 private:
     bool __createFrameCache();
     bool __createCongestionCtrl();
-    bool __updateLossMap(const uint32_t, const uint32_t);
+    bool __updateLossMap(const uint32_t &, const uint32_t &);
     bool __updateFrameCache(const BoeSegmentMessage *);
-    bool __updateCacheWaitTimer(const uint32_t);
+    bool __updateCacheWaitTimer(const uint32_t &);
 };
 
 #endif

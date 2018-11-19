@@ -1,6 +1,6 @@
 #include "InterArrival.h"
 
-InterArrival::InterArrival(const int bst, const uint32_t groupTicks) {
+InterArrival::InterArrival(int bst, uint32_t groupTicks) {
      burst = bst;
      timeGroupLenTicks = groupTicks;
      resetGroupTs();
@@ -11,7 +11,7 @@ InterArrival::~InterArrival() {
 
 }
 
-int InterArrival::__inOrder(uint32_t ts) {
+int InterArrival::__inOrder(const uint32_t &ts) {
     if (curTsGroup.completeTs == -1)
         return 0;
     if (curTsGroup.firstTs <= ts)
@@ -20,7 +20,7 @@ int InterArrival::__inOrder(uint32_t ts) {
     return -1;
 }
 
-int InterArrival::__belongsToBurst(uint32_t ts, int64_t arrivalTs) {
+int InterArrival::__belongsToBurst(const uint32_t &ts, const int64_t &arrivalTs) {
     int64_t arrivalTsDelta;
     uint32_t tsDelta;
     int proDelta;
@@ -40,7 +40,7 @@ int InterArrival::__belongsToBurst(uint32_t ts, int64_t arrivalTs) {
     return false;
 }
 
-bool InterArrival::__newGroup(uint32_t ts, int64_t arrivalTs) {
+bool InterArrival::__newGroup(const uint32_t &ts, const int64_t &arrivalTs) {
     uint32_t diff;
 
     if (curTsGroup.completeTs == -1)
@@ -73,8 +73,8 @@ bool InterArrival::resetGroupTs() {
 
 
 bool InterArrival::computeDeltas(\
-    const uint64_t timestamp, const uint64_t arrivalTs, const uint64_t nowTs, \
-        const size_t payloadSize, uint32_t *timestampDelta, int64_t *arrivalDelta, \
+    const uint64_t &timestamp, const uint64_t &arrivalTs, const uint64_t &nowTs, \
+        const size_t &payloadSize, uint32_t *timestampDelta, int64_t *arrivalDelta, \
             int64_t *sizeDelta) {
 
     int ret = false;

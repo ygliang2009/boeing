@@ -120,7 +120,7 @@ bool PaceQueue::queueEmpty() const {
  * 队列里已有(nowTs - oldestTs)时间间隔的报文 
  * 500ms发送完毕还需要500 - space这些时间
  */
-uint32_t PaceQueue::targetBitrateKbps(int64_t nowTs) {
+uint32_t PaceQueue::targetBitrateKbps(const int64_t &nowTs) {
     uint32_t ret = 0, space;
     if (oldestTs != -1 && nowTs > oldestTs) {
 	space = (uint32_t)(nowTs - oldestTs);

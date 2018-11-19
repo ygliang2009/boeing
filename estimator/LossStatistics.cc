@@ -11,7 +11,7 @@ LossStatistics::~LossStatistics() {
 
 }
 
-bool LossStatistics::incoming(const uint16_t seq) {
+bool LossStatistics::incoming(const uint16_t &seq) {
     if (prevMaxId == -1 && seq > 0)
         prevMaxId = seq - 1;
 
@@ -21,7 +21,7 @@ bool LossStatistics::incoming(const uint16_t seq) {
     return true;
 }
 
-bool LossStatistics::calculate(const int64_t nowTs, uint8_t* fractionLoss, int* num) {
+bool LossStatistics::calculate(const int64_t &nowTs, uint8_t* fractionLoss, int* num) {
     *fractionLoss = 0;
 
     int32_t distance = maxId - prevMaxId;

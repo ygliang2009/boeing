@@ -76,6 +76,6 @@ public:
 
     bool queueEmpty() const;
 
-    uint32_t targetBitrateKbps(int64_t nowTs);
+    uint32_t targetBitrateKbps(const int64_t &nowTs);
 };
 #endif

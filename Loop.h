@@ -24,7 +24,7 @@ public:
 
 private:
     bool __processMessage(char*, BoeHeader *);
-    bool __processHeartbeat(int64_t);
+    bool __processHeartbeat(const int64_t &);
 };
 
 #endif

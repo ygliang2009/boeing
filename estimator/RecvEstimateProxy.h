@@ -34,9 +34,9 @@ public:
 public:
     RecvEstimateProxy();
     ~RecvEstimateProxy();
-    bool incoming(const uint64_t, const uint32_t, const uint16_t);
+    bool incoming(const uint64_t &, const uint32_t &, const uint16_t &);
     
-    bool onBitrateChange(const uint32_t bitrate);
+    bool onBitrateChange(const uint32_t &bitrate);
     bool procProxyHeartbeat(BoeFeedbackMessage *feedbackMsg);
 
 private:

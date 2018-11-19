@@ -32,7 +32,7 @@ bool BoeReceiver::heartBeat() {
     return true;
 }
 
-void BoeReceiver::setBaseUid(const uint64_t baseUserId) {
+void BoeReceiver::setBaseUid(const uint64_t &baseUserId) {
      baseUid = baseUserId;  
 }
 
@@ -110,7 +110,7 @@ bool BoeReceiver::__createCongestionCtrl() {
     return true;
 }
 
-bool BoeReceiver::__updateLossMap(const uint32_t seq, const uint32_t segTs) {
+bool BoeReceiver::__updateLossMap(const uint32_t &seq, const uint32_t &segTs) {
     uint64_t nowTs = BaseTimer::getCurrentTime();
     uint32_t i, space;   
  
@@ -173,7 +173,7 @@ bool BoeReceiver::__updateFrameCache(const BoeSegmentMessage *segMsg) {
     return true;
 }
 
-bool BoeReceiver::ackSegmentMessage(char *sendMsg, const uint32_t seq) {
+bool BoeReceiver::ackSegmentMessage(char *sendMsg, const uint32_t &seq) {
     if (sendMsg == NULL)
 	return false;
     
@@ -228,7 +228,7 @@ bool BoeReceiver::ackSegmentMessage(char *sendMsg, const uint32_t seq) {
     return true;
 }
 
-bool BoeReceiver::procRecvHeartbeat(const uint64_t nowTs) {
+bool BoeReceiver::procRecvHeartbeat(const uint64_t &nowTs) {
     if (session == NULL)
 	return false;
 
@@ -258,13 +258,13 @@ bool BoeReceiver::procRecvHeartbeat(const uint64_t nowTs) {
     return true;  
 }
 
-bool BoeReceiver::updateRtt(const uint32_t rtt) {
+bool BoeReceiver::updateRtt(const uint32_t &rtt) {
     /*在Sender里已经设置了RTT值，这里不做设置*/
     return true;
 }
 
 //定期更新cache的播放缓存
-bool BoeReceiver::__updateCacheWaitTimer(const uint32_t lossMaxCount) {
+bool BoeReceiver::__updateCacheWaitTimer(const uint32_t &lossMaxCount) {
     uint32_t delay;
 
     if (lossMaxCount > 0) {
@@ -278,7 +278,7 @@ bool BoeReceiver::__updateCacheWaitTimer(const uint32_t lossMaxCount) {
     return true;
 }
 
-bool BoeReceiver::setActive(const uint32_t uid) {
+bool BoeReceiver::setActive(const uint32_t &uid) {
     if (actived == 1)
         return false;
 
@@ -290,7 +290,7 @@ bool BoeReceiver::setActive(const uint32_t uid) {
     return true;
 }
 
-bool BoeReceiver::onBitrateChange(const uint32_t targetBitrate) {
+bool BoeReceiver::onBitrateChange(const uint32_t &targetBitrate) {
     if (rcc != NULL)
         return rcc->onBitrateChange(targetBitrate);
 

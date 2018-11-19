@@ -29,7 +29,7 @@ public:
 
     bool registeTrigger(Trigger *trigger);
     bool updateRtt(uint32_t);
-    bool addPacket(const uint32_t, const int, const size_t);
+    bool addPacket(uint32_t, int, size_t);
 
     bool setSender(BoeSender *);
     bool onSendCallback(uint32_t, size_t);

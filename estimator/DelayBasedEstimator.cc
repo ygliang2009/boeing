@@ -36,7 +36,7 @@ void DelayBasedEstimator::resetEstimator() {
 }
 
 
-bool DelayBasedEstimator::updateRtt(uint32_t rtt) {
+bool DelayBasedEstimator::updateRtt(const uint32_t &rtt) {
     if (aimdRateController == NULL)
         return false;
 
@@ -45,7 +45,7 @@ bool DelayBasedEstimator::updateRtt(uint32_t rtt) {
 }
 
 BandwidthEstResult DelayBasedEstimator::incomingEstimate(\
-    FeedbackPacket packets[], const int packetsNum, const uint32_t ackedBitrate, const uint64_t nowTs) {
+    FeedbackPacket packets[], const int &packetsNum, uint32_t ackedBitrate, const uint64_t &nowTs) {
     BandwidthEstResult respEstResult;
 
     if (packetsNum <= 0)
@@ -91,7 +91,7 @@ BandwidthEstResult DelayBasedEstimator::incomingEstimate(\
     return respEstResult;
 }
 
-bool DelayBasedEstimator::__processEstimate(FeedbackPacket *feedbackPacket, const uint64_t nowTs) {
+bool DelayBasedEstimator::__processEstimate(FeedbackPacket *feedbackPacket, const uint64_t &nowTs) {
     if (feedbackPacket->sendTs < firstTs)
         return false;
    
@@ -122,7 +122,7 @@ bool DelayBasedEstimator::__processEstimate(FeedbackPacket *feedbackPacket, cons
     return true;
 }
 
-BandwidthEstResult DelayBasedEstimator::__longFeedbackDelay(const int64_t arrivalTs) {
+BandwidthEstResult DelayBasedEstimator::__longFeedbackDelay(const int64_t &arrivalTs) {
     BandwidthEstResult result;
     if (aimdRateController == NULL)
         return result;
@@ -136,7 +136,8 @@ BandwidthEstResult DelayBasedEstimator::__longFeedbackDelay(const int64_t arriva
 }
 
 BandwidthEstResult DelayBasedEstimator::__maybeUpdate(\
-    const int overuseState, const uint32_t ackedBitrate, const int recoveredFromOveruse, const int64_t nowTs) {
+    const int &overuseState, const uint32_t &ackedBitrate, \
+        const int &recoveredFromOveruse, const int64_t &nowTs) {
 
     BandwidthEstResult result;
     /*网络过载*/
@@ -167,7 +168,8 @@ BandwidthEstResult DelayBasedEstimator::__maybeUpdate(\
 }
 
 bool DelayBasedEstimator::__estimateUpdate(\
-    const int64_t nowTs, const uint32_t ackedBitrate, const int overuseState, uint32_t *targetBitrate) {
+    const int64_t &nowTs, const uint32_t &ackedBitrate, \
+        const int &overuseState, uint32_t *targetBitrate) {
 
     uint32_t prevBitrate = aimdRateController->currentBitrate;
     *targetBitrate = aimdRateController->updateCurrentBitrate(ackedBitrate, overuseState, nowTs);

@@ -19,8 +19,8 @@ public:
     LossStatistics();
     ~LossStatistics();
 
-    bool calculate(const int64_t nowTs, uint8_t* fractionLoss, int* num);
-    bool incoming(const uint16_t seq);
+    bool calculate(const int64_t &nowTs, uint8_t* fractionLoss, int* num);
+    bool incoming(const uint16_t &seq);
 };
 
 #endif

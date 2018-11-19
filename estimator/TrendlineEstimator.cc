@@ -8,7 +8,9 @@ TrendlineEstimator::~TrendlineEstimator() {
 
 }
 
-void TrendlineEstimator::updateTrendline(const double recvDeltaMs, const double sendDeltaMs, const int64_t arrivalTs) {
+void TrendlineEstimator::updateTrendline(\
+    const double &recvDeltaMs, const double &sendDeltaMs, const int64_t &arrivalTs) {
+
     double deltaMs = recvDeltaMs - sendDeltaMs;
     DelayHistory *history;
     numOfDeltas ++;

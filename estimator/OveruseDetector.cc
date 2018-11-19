@@ -15,7 +15,8 @@ OveruseDetector::~OveruseDetector() {
 }
 
 int OveruseDetector::overuseDetect(\
-    const double offset, const double tsDelta, const int numOfDeltas, const int64_t nowTs) {
+    const double &offset, const double &tsDelta, \
+        const int &numOfDeltas, const int64_t &nowTs) {
 
     double T;
     if (numOfDeltas < 2)
@@ -59,7 +60,7 @@ int OveruseDetector::overuseDetect(\
 
 
 /*根据一系列规则更新threshold值*/
-void OveruseDetector::__updateThreshold(const double modifiedOffset, const int64_t nowTs) {
+void OveruseDetector::__updateThreshold(const double &modifiedOffset, const int64_t &nowTs) {
     double k;
     int64_t timeDelta;
 

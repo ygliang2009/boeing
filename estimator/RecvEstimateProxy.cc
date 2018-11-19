@@ -21,7 +21,7 @@ RecvEstimateProxy::~RecvEstimateProxy() {
 /*
  * 整合arrival_ts结构中的到达包信息，删除过期的包，添加新到达的包
  */
-bool RecvEstimateProxy::incoming(const uint64_t arrivalTs, const uint32_t ssrc_, const uint16_t seq) {
+bool RecvEstimateProxy::incoming(const uint64_t &arrivalTs, const uint32_t &ssrc_, const uint16_t &seq) {
     ssrc = ssrc_;
 
     if (seq > wndStartSeq + 32767)
@@ -47,7 +47,7 @@ bool RecvEstimateProxy::incoming(const uint64_t arrivalTs, const uint32_t ssrc_,
 }
 
 
-bool RecvEstimateProxy::onBitrateChange(const uint32_t bitrate) {
+bool RecvEstimateProxy::onBitrateChange(const uint32_t &bitrate) {
     /*IP Header 20B, UDP Header 8B, BoeHeader 10B, FeedbackMessage 160+B */
     int feedbackReportSize = 20 + 8 + 10 + 170;
     double minReportRate = feedbackReportSize * 8.0 * 1000.0 / MAX_SEND_INTERVAL_MS;    

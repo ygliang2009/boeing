@@ -28,19 +28,19 @@ public:
     uint32_t timeGroupLenTicks;
 
 public:
-    InterArrival(const int, const uint32_t);
+    InterArrival(int, uint32_t);
     ~InterArrival();
 
 public:
     bool computeDeltas(\
-     const uint64_t, const uint64_t, const uint64_t, \
-         const size_t, uint32_t*, int64_t*, int64_t*);
+     const uint64_t &, const uint64_t &, const uint64_t &, \
+        const size_t &, uint32_t*, int64_t*, int64_t*);
 
     bool resetGroupTs();
 
 private:
-    int __inOrder(const uint32_t);
-    int __belongsToBurst(const uint32_t, const int64_t);
-    bool __newGroup(const uint32_t, const int64_t);
+    int __inOrder(const uint32_t &);
+    int __belongsToBurst(const uint32_t &, const int64_t &);
+    bool __newGroup(const uint32_t &, const int64_t &);
 };
 #endif

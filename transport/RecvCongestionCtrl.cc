@@ -13,7 +13,9 @@ bool BoeRecvCongestionCtrl::sendCallback() {
     return true;
 }
 
-bool BoeRecvCongestionCtrl::onReceived(const uint16_t seq, const uint32_t timestamp, const size_t size) {
+bool BoeRecvCongestionCtrl::onReceived(\
+    const uint16_t &seq, const uint32_t &timestamp, const size_t &size) {
+
     int64_t nowTs = BaseTimer::getCurrentTime();
     if (!estimateProxy->incoming(nowTs, 0, seq))
         return false;
@@ -48,7 +50,7 @@ bool BoeRecvCongestionCtrl::procRccHeartbeat(char *respFeedbackMsg) {
     return true;
 }
 
-bool BoeRecvCongestionCtrl::onBitrateChange(const uint32_t targetBitrate) {
+bool BoeRecvCongestionCtrl::onBitrateChange(const uint32_t &targetBitrate) {
     if (estimateProxy ==  NULL)
         return false;
     return estimateProxy->onBitrateChange(targetBitrate); 

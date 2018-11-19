@@ -17,7 +17,7 @@ BitrateController::~BitrateController() {
 }
 
 
-bool BitrateController::setStartBitrate(const uint32_t startBitrate) {
+bool BitrateController::setStartBitrate(const uint32_t &startBitrate) {
     /*将预估出来的码率赋值给est->currBitrate*/
     if (!est->setSendBitrate(startBitrate)) {
 	return false;
@@ -29,7 +29,7 @@ bool BitrateController::setStartBitrate(const uint32_t startBitrate) {
 
 
 /*每到一个心跳时间，则对前面做的带宽预估值作调整，并通知上一层决策*/
-bool BitrateController::procBitrateHeartbeat(const int64_t nowTs, const uint32_t ackedBitrate) {
+bool BitrateController::procBitrateHeartbeat(const int64_t &nowTs, const uint32_t &ackedBitrate) {
 
     uint32_t bitrate = 0, rtt = 0;
     uint8_t fractionLoss = 0;
@@ -39,7 +39,7 @@ bool BitrateController::procBitrateHeartbeat(const int64_t nowTs, const uint32_t
     
     est->updateEstimation(nowTs, ackedBitrate);
     if (scc != NULL) {
-        if (getParameter(&bitrate, &fractionLoss, &rtt) == 0) {
+        if (getParameter(bitrate, fractionLoss, rtt) == 0) {
 	    /*网络状态发生变化，则进行通知*/
 	    scc->onNetworkChange(bitrate, fractionLoss, rtt);
 	    notifyTs = nowTs;
@@ -57,7 +57,7 @@ bool BitrateController::__maybeTriggerNetworkChanged() {
     uint32_t rtt, bitrate;    
     uint8_t fractionLoss;
 
-    if (scc != NULL && getParameter(&bitrate, &fractionLoss, &rtt) == 0) {
+    if (scc != NULL && getParameter(bitrate, fractionLoss, rtt) == 0) {
         if(!scc->onNetworkChange(bitrate, fractionLoss, rtt)) {
             return false;
         }	
@@ -68,7 +68,7 @@ bool BitrateController::__maybeTriggerNetworkChanged() {
 
 
 bool BitrateController::setBitrates(\
-    const uint32_t bitrate, const uint32_t minBitrate, const uint32_t maxBitrate) {
+    const uint32_t &bitrate, const uint32_t &minBitrate, const uint32_t &maxBitrate) {
 
     if (!est->setSendBitrate(bitrate))
         return false;
@@ -85,7 +85,7 @@ bool BitrateController::setBitrates(\
 
 
 bool BitrateController::resetBitrates(\
-    const uint32_t bitrate, const uint32_t minBitrate, const uint32_t maxBitrate) {
+    const uint32_t &bitrate, const uint32_t &minBitrate, const uint32_t &maxBitrate) {
 
     if (est != NULL)
 	delete est;
@@ -106,8 +106,8 @@ bool BitrateController::resetBitrates(\
 
 
 bool BitrateController::onLossInfoResult(\
-    const uint32_t rtt, const int64_t currTs, const uint8_t fractionLoss, \
-        const int packetsNum, const uint32_t ackedBitrate) {
+    const uint32_t &rtt, const int64_t &currTs, const uint8_t &fractionLoss, \
+        const int &packetsNum, const uint32_t &ackedBitrate) {
 
     if (packetsNum <= 0)
         return false;
@@ -118,7 +118,7 @@ bool BitrateController::onLossInfoResult(\
 
 
 bool BitrateController::onDelayBasedResult(\
-    const int update, const int probe, const uint32_t targetBitrate, const int state) {
+    const int &update, const int &probe, const uint32_t &targetBitrate, const int &state) {
     /*bitrate没有更新*/
     if (update == -1)
         return false;
@@ -131,21 +131,25 @@ bool BitrateController::onDelayBasedResult(\
 }
 
 /*从est中获取参数bitrate, fractionLoss, rtt几个参数*/
-int BitrateController::getParameter(uint32_t* bitrate, uint8_t* fractionLoss, uint32_t* rtt) {
+int BitrateController::getParameter(\
+    uint32_t &bitrate, uint8_t &fractionLoss, uint32_t &rtt) {
+
     int ret = -1;
     uint32_t currBitrate;
 
     currBitrate = est->currBitrate;
     currBitrate -= BOE_MIN(currBitrate, reservedBitrateBps);
 
-    *rtt = est->lastRtt;
-    *fractionLoss = est->lastFractionLoss;
-    *bitrate = BOE_MAX(currBitrate, est->minConfBitrate);
+    rtt = est->lastRtt;
+    fractionLoss = est->lastFractionLoss;
+    bitrate = BOE_MAX(currBitrate, est->minConfBitrate);
   
-    if (*fractionLoss != lastFractionLoss || *rtt != lastRtt || *bitrate != lastBitrateBps || lastReservedBitrateBps != reservedBitrateBps)  {
-	lastFractionLoss = *fractionLoss;
-	lastBitrateBps = *bitrate;
-   	lastRtt	= *rtt;
+    if (fractionLoss != lastFractionLoss || rtt != lastRtt || \
+        bitrate != lastBitrateBps || lastReservedBitrateBps != reservedBitrateBps)  {
+
+	lastFractionLoss = fractionLoss;
+	lastBitrateBps = bitrate;
+   	lastRtt	= rtt;
 	lastReservedBitrateBps = reservedBitrateBps;
 	ret = 0;
     }

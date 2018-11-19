@@ -70,18 +70,18 @@ public:
     DelayBasedEstimator();
     ~DelayBasedEstimator();
 
-    bool updateRtt(uint32_t);
+    bool updateRtt(const uint32_t &);
 
-    BandwidthEstResult incomingEstimate(FeedbackPacket[], const int, const uint32_t, const uint64_t);
+    BandwidthEstResult incomingEstimate(FeedbackPacket[], const int &, uint32_t, const uint64_t &);
     void resetEstimator();
 
 
 private:
-    bool __processEstimate(FeedbackPacket *, const uint64_t);
-    BandwidthEstResult __longFeedbackDelay(const int64_t);
-    BandwidthEstResult __maybeUpdate(const int, const uint32_t, const int, const int64_t);
+    bool __processEstimate(FeedbackPacket *, const uint64_t &);
+    BandwidthEstResult __longFeedbackDelay(const int64_t &);
+    BandwidthEstResult __maybeUpdate(const int &, const uint32_t &, const int &, const int64_t &);
     
-    bool __estimateUpdate(const int64_t, const uint32_t, const int, uint32_t *);
+    bool __estimateUpdate(const int64_t &, const uint32_t &, const int &, uint32_t *);
 };
 
 #endif

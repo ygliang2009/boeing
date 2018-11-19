@@ -54,7 +54,7 @@ bool BoeSendCongestionCtrl::updateRtt(uint32_t rtt) {
     return true;
 }
 
-bool BoeSendCongestionCtrl::addPacket(const uint32_t packetId, const int retrans, const size_t size) {
+bool BoeSendCongestionCtrl::addPacket(uint32_t packetId, int retrans, size_t size) {
     return paceSender->insertPacket(packetId, retrans, size, BaseTimer::getCurrentTime()); 
 }
 
@@ -80,7 +80,7 @@ bool BoeSendCongestionCtrl::processFeedback(BoeFeedbackMessage *feedbackMessage)
 	return false;   
     
     int curAlr = -1;
-    uint64_t nowTs = BaseTimer::getCurrentTime();
+    int64_t nowTs = BaseTimer::getCurrentTime();
  
 /*
  *      <-- FEEDBACK_MSG

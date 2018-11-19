@@ -26,6 +26,6 @@ public:
     /*添加反馈报文*/
     bool historyAdd(FeedbackPacket *);
     /*消费反馈报文*/
-    int historyGet(const uint16_t, FeedbackPacket*, int);
+    int historyGet(const uint16_t &, FeedbackPacket*, const int &);
 };
 #endif
