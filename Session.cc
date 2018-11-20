@@ -242,17 +242,23 @@ bool Session::sendPingState(const int64_t &nowTs) {
 
 /*完成一次PING PONG会调用这个函数*/
 bool Session::sessCalculateRtt(const uint32_t &keepRtt) {
+    /*参考TCP RTT计算方法：Jacobson/Karels 算法 */
     uint32_t keepRttVar = keepRtt;
     if (keepRttVar < 5)
         keepRttVar = 5;
-    /*当前的这个rtt仅占比25%*/
+    /*
+     * 当前的这个rtt仅占比25%
+     * rttVar表示网络抖动之间的差值
+     */
     rttVar = (rttVar * 3 + BOE_ABS(rtt, keepRttVar))/4;
     if (rttVar < 10)
         rttVar = 10;
     rtt = (7 * rtt + keepRttVar)/8;
     if (rtt < 10)
         rtt = 10;
-
+    /*
+     * 当前RTT = SRTT + RTTVar (SRTT代表平滑的RTT，RTTVar 代表网络抖动之间的差值)
+     */
     if (sender != NULL)
         sender->updateRtt(rtt + rttVar);
     if (recv != NULL)

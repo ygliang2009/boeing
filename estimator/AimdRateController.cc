@@ -109,6 +109,7 @@ uint32_t AimdRateController::__changeBitrate(\
     float ackedKbitrate, maxKbitrate;
  
     if (inited == -1 && state == BW_OVERUSING)
+    /*Overusing状态必须要做降低码率处理，即使当前还没有完成一次estimate*/
 	return currentBitrate;
     /*根据input的状态修改aimdState的取值*/
     __changeState(state, ackedBitrate, nowTs); 
