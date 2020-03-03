@@ -28,8 +28,10 @@ bool RecvEstimateProxy::incoming(const uint64_t &arrivalTs, const uint32_t &ssrc
         return false;
     if (maxArrivalSeq <= wndStartSeq) {
 	int num = 0;
+        //释放过期帧
         std::map<uint64_t, uint64_t>::iterator iter = arrivalTimes.begin();
         for (; iter != arrivalTimes.end(); iter++) {
+            //释放规则：比当前包的seq小，并且已经过期的包
             if (iter->first < seq && arrivalTs >= iter->second + BACK_WINDOWS_MS && num < MAX_IDS_NUM) {
                 arrivalTimes.erase(iter++); 
 		num++;
@@ -42,7 +44,8 @@ bool RecvEstimateProxy::incoming(const uint64_t &arrivalTs, const uint32_t &ssrc
 	wndStartSeq = seq;
    
     maxArrivalSeq = BOE_MAX(maxArrivalSeq, seq);
-    arrivalTimes[seq] = arrivalTs;     
+    //保存当前帧到arrivalTimes
+    arrivalTimes[seq] = arrivalTs; 
     return true;
 }
 
@@ -50,8 +53,8 @@ bool RecvEstimateProxy::incoming(const uint64_t &arrivalTs, const uint32_t &ssrc
 bool RecvEstimateProxy::onBitrateChange(const uint32_t &bitrate) {
     /*IP Header 20B, UDP Header 8B, BoeHeader 10B, FeedbackMessage 160+B */
     int feedbackReportSize = 20 + 8 + 10 + 170;
-    double minReportRate = feedbackReportSize * 8.0 * 1000.0 / MAX_SEND_INTERVAL_MS;    
-    double maxReportRate = feedbackReportSize * 8.0 * 1000.0 / MIN_SEND_INTERVAL_MS;
+    double maxReportRate = feedbackReportSize * 8.0 * 1000.0 / MAX_SEND_INTERVAL_MS;    
+    double minReportRate = feedbackReportSize * 8.0 * 1000.0 / MIN_SEND_INTERVAL_MS;
 
     sendIntervalMs = static_cast<int>(\
         feedbackReportSize * 8.0 * 1000 /(0.5 + BOE_MIN(BOE_MAX(0.05 * bitrate, maxReportRate), minReportRate))); 
